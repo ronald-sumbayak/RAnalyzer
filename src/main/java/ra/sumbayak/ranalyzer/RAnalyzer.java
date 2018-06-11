@@ -1,6 +1,6 @@
 package ra.sumbayak.ranalyzer;
 
-import java.nio.file.FileSystems;
+import javax.swing.JFileChooser;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +14,6 @@ public class RAnalyzer extends Application {
     
     @Override
     public void start (Stage primaryStage) throws Exception {
-        System.out.println (FileSystems.getDefault().getPath(".").toAbsolutePath());
         Font.loadFont (RAnalyzer.class.getResource ("/fa/fontawesome-webfont.ttf").toExternalForm (), 10);
         
         FXMLLoader loader = new FXMLLoader ();
