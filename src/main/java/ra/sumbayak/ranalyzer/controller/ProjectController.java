@@ -9,8 +9,8 @@ import org.w3c.dom.NodeList;
 import java.io.File;
 import java.util.Map;
 
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -138,81 +138,83 @@ public class ProjectController {
         
         Element pkg;
         
-        // write use cases
-        pkg = doc.createElement ("package");
-        pkg.setAttribute ("type", "UseCase");
-        ran.appendChild (pkg);
-        for (UseCase useCase : project.getDiagram ().getUseCaseList ()) {
-            Element uc = doc.createElement ("UseCase");
-            uc.setAttribute ("name", useCase.getName ());
-            uc.setAttribute ("description", useCase.getDescription ());
-            pkg.appendChild (uc);
+        if (project.getDiagram ().getUseCaseList ().size () > 0) {
+            // write use cases
+            pkg = doc.createElement ("package");
+            pkg.setAttribute ("type", "UseCase");
+            ran.appendChild (pkg);
+            for (UseCase useCase : project.getDiagram ().getUseCaseList ()) {
+                Element uc = doc.createElement ("UseCase");
+                uc.setAttribute ("name", useCase.getName ());
+                uc.setAttribute ("description", useCase.getDescription ());
+                pkg.appendChild (uc);
+            }
         }
         
-        // write use case dependencies
-        pkg = doc.createElement ("package");
-        pkg.setAttribute ("type", "UseCaseDependency");
-        ran.appendChild (pkg);
-        for (UseCaseDependency useCaseDependency : project.getDiagram ().getDependencyList ()) {
-            Element ucd = doc.createElement ("UseCaseDependency");
-            ucd.setAttribute ("type", String.valueOf (useCaseDependency.getType ()));
-            ucd.setAttribute ("src", String.valueOf (project.getDiagram ().getUseCaseList ().indexOf (useCaseDependency.getSrc ())));
-            ucd.setAttribute ("dst", String.valueOf (project.getDiagram ().getUseCaseList ().indexOf (useCaseDependency.getDst ())));
-            pkg.appendChild (ucd);
+        if (project.getDiagram ().getDependencyList ().size () > 0) {
+            // write use case dependencies
+            pkg = doc.createElement ("package");
+            pkg.setAttribute ("type", "UseCaseDependency");
+            ran.appendChild (pkg);
+            for (UseCaseDependency useCaseDependency : project.getDiagram ().getDependencyList ()) {
+                Element ucd = doc.createElement ("UseCaseDependency");
+                ucd.setAttribute ("type", String.valueOf (useCaseDependency.getType ()));
+                ucd.setAttribute ("src", String.valueOf (project.getDiagram ().getUseCaseList ().indexOf (useCaseDependency.getSrc ())));
+                ucd.setAttribute ("dst", String.valueOf (project.getDiagram ().getUseCaseList ().indexOf (useCaseDependency.getDst ())));
+                pkg.appendChild (ucd);
+            }
         }
         
-        // write statements
-        pkg = doc.createElement ("package");
-        pkg.setAttribute ("type", "Statement");
-        ran.appendChild (pkg);
-        for (Statement statement : project.getStatements ()) {
-            Element s = doc.createElement ("Statement");
-            s.setAttribute ("value", statement.getValue ());
-            pkg.appendChild (s);
+        if (project.getStatements ().size () > 0) {
+            // write statements
+            pkg = doc.createElement ("package");
+            pkg.setAttribute ("type", "Statement");
+            ran.appendChild (pkg);
+            for (Statement statement : project.getStatements ()) {
+                Element s = doc.createElement ("Statement");
+                s.setAttribute ("value", statement.getValue ());
+                pkg.appendChild (s);
+            }
         }
     
-        // write requirement dependencies
-        pkg = doc.createElement ("package");
-        pkg.setAttribute ("type", "RequirementDependency");
-        ran.appendChild (pkg);
-        for (RequirementDependency requirementDependency : project.getGraph ().getDependencyList ()) {
-            Element rd = doc.createElement ("RequirementDependency");
-            rd.setAttribute ("type", String.valueOf (requirementDependency.getType ()));
-            rd.setAttribute ("src", String.valueOf (project.getStatements ().indexOf (requirementDependency.getSrc ())));
-            rd.setAttribute ("dst", String.valueOf (project.getStatements ().indexOf (requirementDependency.getDst ())));
-            pkg.appendChild (rd);
+        if (project.getGraph ().getDependencyList ().size () > 0) {
+            // write requirement dependencies
+            pkg = doc.createElement ("package");
+            pkg.setAttribute ("type", "RequirementDependency");
+            ran.appendChild (pkg);
+            for (RequirementDependency requirementDependency : project.getGraph ().getDependencyList ()) {
+                Element rd = doc.createElement ("RequirementDependency");
+                rd.setAttribute ("type", String.valueOf (requirementDependency.getType ()));
+                rd.setAttribute ("src", String.valueOf (project.getStatements ().indexOf (requirementDependency.getSrc ())));
+                rd.setAttribute ("dst", String.valueOf (project.getStatements ().indexOf (requirementDependency.getDst ())));
+                pkg.appendChild (rd);
+            }
         }
         
-        Transformer transformer;
-        
+        File file = project.getFile ();
+    
+        if (file == null) {
+            WindowExplorer windowExplorer = new WindowExplorer ("Save Project");
+            windowExplorer.addExtensionFilter ("RAnalyzer Project File", "*.ran");
+            windowExplorer.setInitialFileName (project.getName ());
+            
+            file = windowExplorer.save ();
+            if (file == null)
+                return;
+        }
+    
         try {
             TransformerFactory factory = TransformerFactory.newInstance ();
-            transformer = factory.newTransformer ();
-        }
-        catch (TransformerConfigurationException e) {
-            e.printStackTrace ();
-            return;
-        }
-    
-        WindowExplorer windowExplorer = new WindowExplorer ("Save Project");
-        windowExplorer.addExtensionFilter ("RAnalyzer Project File", "*.ran");
-        
-        File file = windowExplorer.save ();
-        if (file == null)
-            return;
-        
-        DOMSource source = new DOMSource (doc);
-        StreamResult result = new StreamResult (file);
-        
-        try {
-            transformer.transform (source, result);
+            Transformer transformer = factory.newTransformer ();
+            transformer.setOutputProperty (OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty ("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer.transform (new DOMSource (doc), new StreamResult (file));
+            project.setFile (file);
+            project.setSaved ();
         }
         catch (TransformerException e) {
             e.printStackTrace ();
         }
-        
-        project.setFile (file);
-        project.setSaved ();
     }
     
     public void closeProject (Project project) {

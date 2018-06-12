@@ -53,7 +53,7 @@ public class ProjectWorksheetController {
     
     @FXML
     private void saveProject () {
-        if (project == null)
+        if (project == null || project.isSaved ())
             return;
         projectController.saveProject (project);
     }

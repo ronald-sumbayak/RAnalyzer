@@ -20,6 +20,10 @@ public class WindowExplorer {
             fileChooser.setInitialDirectory (ranalyzerProjectsDir);
     }
     
+    public void setInitialFileName (String value) {
+        fileChooser.setInitialFileName (value);
+    }
+    
     public void addExtensionFilter (String extensionDescription, String... extensions) {
         fileChooser.getExtensionFilters ().addAll (new ExtensionFilter (extensionDescription, extensions));
     }
