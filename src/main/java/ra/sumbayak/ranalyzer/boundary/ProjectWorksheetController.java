@@ -1,7 +1,9 @@
-package ra.sumbayak.ranalyzer.controller;
+package ra.sumbayak.ranalyzer.boundary;
 
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
+import ra.sumbayak.ranalyzer.controller.DependencyController;
+import ra.sumbayak.ranalyzer.controller.ProjectController;
 import ra.sumbayak.ranalyzer.entity.Project;
 
 public class ProjectWorksheetController {

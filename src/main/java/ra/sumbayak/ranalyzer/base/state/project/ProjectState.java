@@ -1,10 +1,7 @@
-package ra.sumbayak.ranalyzer.base.state.Project;
+package ra.sumbayak.ranalyzer.base.state.project;
 
 public interface ProjectState {
     
     void setSaved ();
     void setUnsaved ();
-    void doAction ();
-    void onEntry ();
-    void onExit ();
 }

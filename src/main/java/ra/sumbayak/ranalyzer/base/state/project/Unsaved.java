@@ -1,4 +1,4 @@
-package ra.sumbayak.ranalyzer.base.state.Project;
+package ra.sumbayak.ranalyzer.base.state.project;
 
 import ra.sumbayak.ranalyzer.entity.Project;
 
@@ -17,21 +17,6 @@ public class Unsaved implements ProjectState {
     
     @Override
     public void setUnsaved () {
-    
-    }
-    
-    @Override
-    public void doAction () {
-    
-    }
-    
-    @Override
-    public void onEntry () {
-    
-    }
-    
-    @Override
-    public void onExit () {
     
     }
 }

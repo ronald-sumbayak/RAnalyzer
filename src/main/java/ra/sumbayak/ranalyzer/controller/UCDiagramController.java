@@ -5,18 +5,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import javafx.util.Pair;
 import ra.sumbayak.ranalyzer.base.UseCaseDescriptionForm;
@@ -24,11 +18,11 @@ import ra.sumbayak.ranalyzer.base.WindowExplorer;
 import ra.sumbayak.ranalyzer.entity.Project;
 import ra.sumbayak.ranalyzer.entity.UseCase;
 import ra.sumbayak.ranalyzer.entity.UseCaseDependency;
-import ra.sumbayak.ranalyzer.entity.UseCaseDiagram;
+import ra.sumbayak.ranalyzer.utils.DocumentUtil;
 
 public class UCDiagramController {
     
-    private void traverseNode (NodeList nodeList, @NotNull Map<String, String> useCases, @NotNull List<Pair<Integer, Pair<String, String>>> dependencies) {
+    private void traverseNode (NodeList nodeList, @NotNull Map<String, Pair<String, String>> useCases, @NotNull List<Pair<Integer, Pair<String, String>>> dependencies) {
         for (int i = 0; i < nodeList.getLength (); i++) {
             Node node = nodeList.item (i);
             
@@ -44,7 +38,28 @@ public class UCDiagramController {
                 switch (nodeMap.getNamedItem ("xmi:type").getNodeValue ()) {
                     case "uml:UseCase":
                         String name = nodeMap.getNamedItem ("name").getNodeValue ();
-                        useCases.put (id, name);
+                        String description = null;
+                        
+                        // try to extract description if any
+                        if (node.hasChildNodes ()) {
+                            NodeList extensions = node.getChildNodes ();
+                            for (int j = 0; j < extensions.getLength (); j++) {
+                                Node ext = extensions.item (j);
+                                if (ext.getNodeName ().equals ("xmi:Extension")) {
+                                    NodeList extChilds = ext.getChildNodes ();
+                                    for (int k = 0; k < extChilds.getLength (); k++) {
+                                        Node extChild = extChilds.item (k);
+                                        if (extChild.getNodeName ().equals ("documentation")) {
+                                            description = extChild.getAttributes ().getNamedItem ("value").getNodeValue ();
+                                            if (description.length () == 0)
+                                                description = null;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        useCases.put (id, new Pair<> (name, description));
                         break;
                         
                     case "uml:Include":
@@ -72,75 +87,65 @@ public class UCDiagramController {
         // open window explorer
         WindowExplorer windowExplorer = new WindowExplorer ("Open Use Case Diagram");
         windowExplorer.addExtensionFilter ("Use Case Diagram File", "*.xmi");
-        File file = windowExplorer.open ();
         
+        File file = windowExplorer.open ();
         if (file == null)
             return;
         
-        Document doc;
-        
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance ();
-            DocumentBuilder builder = factory.newDocumentBuilder ();
-            doc = builder.parse (file);
-        }
-        catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace ();
+        Document doc = DocumentUtil.open (file);
+        if (doc == null)
             return;
-        }
         
+        // extract elements
         List<Pair<Integer, Pair<String, String>>> dependencies = new ArrayList<> ();
-        Map<String, String> useCases = new HashMap<> ();
-    
-        // open document
-        doc.getDocumentElement ().normalize ();
+        Map<String, Pair<String, String>> useCases = new HashMap<> ();
         traverseNode (doc.getChildNodes (), useCases, dependencies);
         
-        // create diagram
-        UseCaseDiagram diagram = new UseCaseDiagram (file.getName ());
-        
         // create use case
-        Map<String, UseCase> uc = new HashMap<> ();
-        for (Map.Entry<String, String> useCase : useCases.entrySet ()) {
-            String name = useCase.getValue ();
+        Map<String, UseCase> useCaseByName = new HashMap<> ();
+        for (Map.Entry<String, Pair<String, String>> item : useCases.entrySet ()) {
+            String name = item.getValue ().getKey ();
+            String description = item.getValue ().getValue ();
             
-            if (!project.containsUseCase (name))
-                project.addUseCase (diagram, name);
-            uc.put (useCase.getKey (), project.getUseCaseByName (name));
+            UseCase useCase = new UseCase (name, description);
+            project.getDiagram ().addUseCase (useCase);
+            useCaseByName.put (item.getKey (), useCase);
         }
         
-        // create dependency, connect, add to diagram
+        // create dependency, connect, and add it to diagram
         for (Pair<Integer, Pair<String, String>> d : dependencies) {
             Integer type = d.getKey ();
             String src = d.getValue ().getKey ();
             String dst = d.getValue ().getValue ();
             
             UseCaseDependency dependency = new UseCaseDependency ();
-            dependency.connect (type, uc.get (src), uc.get (dst));
-            diagram.addDependency (dependency);
+            dependency.connect (type, useCaseByName.get (src), useCaseByName.get (dst));
+            project.getDiagram ().addDependency (dependency);
         }
         
-        // add diagram to project
-        project.addDiagram (diagram);
         project.setUnsaved ();
     }
     
-    public void addDescription (Project project, UseCaseDiagram useCaseDiagram) {
-        UseCaseDescriptionForm form = new UseCaseDescriptionForm ();
+    public void editDescription (Project project, int index) {
+        // show use case description form
+        UseCaseDescriptionForm form = new UseCaseDescriptionForm (project.getDiagram ().getUseCaseList ().get (index));
         Map<String, String> values = form.show ();
         
         if (values == null)
             return;
         
+        // edit name and description
+        String name = values.get (UseCaseDescriptionForm.USE_CASE_NAME);
         String description = values.get (UseCaseDescriptionForm.DESCRIPTION);
-        useCaseDiagram.addDescription (description);
-        
+        UseCase useCase = project.getDiagram ().getUseCaseList ().get (index);
+        useCase.setName (name);
+        useCase.setDescription (description);
         project.setUnsaved ();
     }
     
-    public void removeUCDiagram (Project project, UseCaseDiagram useCaseDiagram) {
-        // destroy
-        project.removeUseCaseDiagram (useCaseDiagram);
+    public void removeUseCase (Project project, int index) {
+        // remove use case
+        project.getDiagram ().getUseCaseList ().remove (index);
         project.setUnsaved ();
     }
 }

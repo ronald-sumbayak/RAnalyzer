@@ -1,4 +1,4 @@
-package ra.sumbayak.ranalyzer.controller;
+package ra.sumbayak.ranalyzer.boundary;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
@@ -16,6 +16,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import ra.sumbayak.ranalyzer.controller.UCDiagramController;
 import ra.sumbayak.ranalyzer.entity.Project;
 import ra.sumbayak.ranalyzer.entity.UseCase;
 
@@ -50,12 +51,12 @@ public class UCDiagramWindowController {
     }
     
     private void editDescription (int index) {
-        controller.addDescription (project, index);
+        controller.editDescription (project, index);
         updateUCDiagramList ();
     }
     
     private void removeUCDiagram (int index) {
-        controller.removeUCDiagram (project, index);
+        controller.removeUseCase (project, index);
         updateUCDiagramList ();
     }
     
@@ -82,15 +83,10 @@ public class UCDiagramWindowController {
     
                 Label id = new Label ("UC" + String.valueOf (getIndex ()));
                 Label name = new Label (item.getName ());
-                
-                if (item.getDescription () != null) {
-                    String d = "Description:\n" + item.getDescription ();
-                    Label dLabel = new Label (d);
-                    grid.add (dLabel, 1, 2, 4, 1);
-                }
-    
                 Separator separator = new Separator (Orientation.VERTICAL);
-                grid.add (separator, 2, 0, 1, 2);
+    
+                if (item.getDescription () != null && item.getDescription ().length () > 0)
+                    grid.add (new Label (item.getDescription ()), 1, 2, 3, 1);
     
                 JFXButton editDescriptionButton = new JFXButton ("Edit");
                 editDescriptionButton.setOnMouseClicked (event -> editDescription (getIndex ()));

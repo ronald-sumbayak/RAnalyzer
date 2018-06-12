@@ -1,14 +1,12 @@
 package ra.sumbayak.ranalyzer;
 
-import javax.swing.JFileChooser;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import ra.sumbayak.ranalyzer.controller.ProjectWorksheetController;
+import ra.sumbayak.ranalyzer.boundary.ProjectWorksheetController;
 
 public class RAnalyzer extends Application {
     

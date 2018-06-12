@@ -16,13 +16,12 @@ public class WindowExplorer {
         fileChooser = new FileChooser ();
         fileChooser.setTitle (title);
         File ranalyzerProjectsDir = new File (new JFileChooser ().getFileSystemView ().getDefaultDirectory ().toString () + "\\RAnalyzerProjects");
-        if (ranalyzerProjectsDir.exists () || ranalyzerProjectsDir.mkdir ()) {
+        if (ranalyzerProjectsDir.exists () || ranalyzerProjectsDir.mkdir ())
             fileChooser.setInitialDirectory (ranalyzerProjectsDir);
-        }
     }
     
     public void addExtensionFilter (String extensionDescription, String... extensions) {
-        fileChooser.getExtensionFilters ().setAll (new ExtensionFilter (extensionDescription, extensions));
+        fileChooser.getExtensionFilters ().addAll (new ExtensionFilter (extensionDescription, extensions));
     }
     
     public File open () {

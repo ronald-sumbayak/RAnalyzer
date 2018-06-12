@@ -1,33 +1,27 @@
 package ra.sumbayak.ranalyzer.entity;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 public class UseCase {
     
-    private String code, name;
+    private String name, description;
     
-    public UseCase (String code, String name) {
-        this.code = code;
+    public UseCase (String name, String description) {
         this.name = name;
-    }
-    
-    public String getCode () {
-        return code;
+        this.description = description;
     }
     
     public String getName () {
         return name;
     }
     
-    public String getFullName () {
-        return code + " - " + name;
+    public void setName (String name) {
+        this.name = name;
     }
     
-    public void write (Document doc, Element root) {
-        Element uc = doc.createElement ("UseCase");
-        uc.setAttribute ("code", code);
-        uc.setAttribute ("name", name);
-        root.appendChild (uc);
+    public String getDescription () {
+        return description;
+    }
+    
+    public void setDescription (String description) {
+        this.description = description;
     }
 }

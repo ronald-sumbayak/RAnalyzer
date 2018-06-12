@@ -5,17 +5,13 @@ import java.util.List;
 
 public class RequirementDependencyGraph {
     
-    private List<Dependency> dependencyList = new ArrayList<> ();
+    private List<RequirementDependency> dependencyList = new ArrayList<> ();
     
-    public List<Dependency> getDependencyList () {
-        return dependencyList;
-    }
-    
-    public Dependency getDependency (int i) {
-        return dependencyList.get (i);
-    }
-    
-    public void addDependency (Dependency dependency) {
+    public void addDependency (RequirementDependency dependency) {
         dependencyList.add (dependency);
+    }
+    
+    public List<RequirementDependency> getDependencyList () {
+        return dependencyList;
     }
 }
