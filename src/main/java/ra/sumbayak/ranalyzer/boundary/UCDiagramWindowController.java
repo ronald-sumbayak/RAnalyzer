@@ -4,8 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,13 +17,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import ra.sumbayak.ranalyzer.entity.Project;
-import ra.sumbayak.ranalyzer.entity.UseCaseDiagram;
+import ra.sumbayak.ranalyzer.entity.UseCase;
 
 public class UCDiagramWindowController {
     
     @FXML
-    private JFXListView<UseCaseDiagram> ucDiagramListView;
-    private ObservableList<UseCaseDiagram> ucDiagramItems;
+    private JFXListView<UseCase> ucDiagramListView;
+    private ObservableList<UseCase> ucDiagramItems;
     
     private UCDiagramController controller;
     private Project project;
@@ -51,26 +49,26 @@ public class UCDiagramWindowController {
         updateUCDiagramList ();
     }
     
-    private void addDescription (UseCaseDiagram useCaseDiagram) {
-        controller.addDescription (project, useCaseDiagram);
+    private void editDescription (int index) {
+        controller.addDescription (project, index);
         updateUCDiagramList ();
     }
     
-    private void removeUCDiagram (UseCaseDiagram useCaseDiagram) {
-        controller.removeUCDiagram (project, useCaseDiagram);
+    private void removeUCDiagram (int index) {
+        controller.removeUCDiagram (project, index);
         updateUCDiagramList ();
     }
     
     private void updateUCDiagramList () {
         if (project == null)
             return;
-        ucDiagramItems.setAll (project.getUseCaseDiagramList ());
+        ucDiagramItems.setAll (project.getDiagram ().getUseCaseList ());
     }
     
-    public class UCDiagramCell extends JFXListCell<UseCaseDiagram> {
+    public class UCDiagramCell extends JFXListCell<UseCase> {
     
         @Override
-        protected void updateItem (UseCaseDiagram item, boolean empty) {
+        protected void updateItem (UseCase item, boolean empty) {
             super.updateItem (item, empty);
             if (empty) {
                 setGraphic (null);
@@ -81,23 +79,11 @@ public class UCDiagramWindowController {
                 grid.setHgap (15);
                 grid.setVgap (4);
                 grid.setPadding (new Insets (10, 10, 10, 10));
-                
-                FontAwesomeIconView faIconView = new FontAwesomeIconView (FontAwesomeIcon.FOLDER_ALT);
-                faIconView.setGlyphSize (32);
-                grid.add (faIconView, 0, 0, 1, 2);
-                
+    
+                Label id = new Label ("UC" + String.valueOf (getIndex ()));
                 Label name = new Label (item.getName ());
-                name.setStyle ("-fx-font-weight: bold");
-                grid.add (name, 1, 0);
                 
-                String s = String.format ("%d UseCase - %d Dependency",
-                                          item.getUseCaseCount (),
-                                          item.getDependencyCount ());
-                Label ucd = new Label (s);
-                ucd.setStyle ("-fx-text-fill: #666666");
-                grid.add (ucd, 1, 1);
-                
-                if (item.hasDescription ()) {
+                if (item.getDescription () != null) {
                     String d = "Description:\n" + item.getDescription ();
                     Label dLabel = new Label (d);
                     grid.add (dLabel, 1, 2, 4, 1);
@@ -105,20 +91,18 @@ public class UCDiagramWindowController {
     
                 Separator separator = new Separator (Orientation.VERTICAL);
                 grid.add (separator, 2, 0, 1, 2);
-                
-                JFXButton addDescriptionButton = new JFXButton ("Add Description");
-                addDescriptionButton.setOnMouseClicked (event -> addDescription (item));
-                    //addDescriptionButton.setVisible (false);
-                
+    
+                JFXButton editDescriptionButton = new JFXButton ("Edit");
+                editDescriptionButton.setOnMouseClicked (event -> editDescription (getIndex ()));
+    
                 JFXButton removeButton = new JFXButton ("Remove");
-                removeButton.setOnMouseClicked (event -> removeUCDiagram (item));
+                removeButton.setOnMouseClicked (event -> removeUCDiagram (getIndex ()));
                 
                 HBox hBox = new HBox ();
-                hBox.getChildren ().addAll (addDescriptionButton, removeButton);
-                if (item.hasDescription ())
-                    hBox.getChildren ().remove (addDescriptionButton);
+                hBox.getChildren ().addAll (editDescriptionButton, removeButton);
                 hBox.setAlignment (Pos.CENTER_RIGHT);
-                grid.add (hBox, 3, 0, 1, 2);
+    
+                grid.addRow (0, id, name, separator, hBox);
                 
                 ColumnConstraints c = new ColumnConstraints ();
                 c.setHgrow (Priority.ALWAYS);
