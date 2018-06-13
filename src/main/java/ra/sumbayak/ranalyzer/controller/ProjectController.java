@@ -26,7 +26,7 @@ import ra.sumbayak.ranalyzer.entity.RequirementDependency;
 import ra.sumbayak.ranalyzer.entity.Statement;
 import ra.sumbayak.ranalyzer.entity.UseCase;
 import ra.sumbayak.ranalyzer.entity.UseCaseDependency;
-import ra.sumbayak.ranalyzer.utils.DocumentUtil;
+import ra.sumbayak.ranalyzer.util.XMIDocument;
 
 public class ProjectController {
     
@@ -108,7 +108,7 @@ public class ProjectController {
         if (file == null)
             return current;
     
-        Document doc = DocumentUtil.open (file);
+        Document doc = XMIDocument.open (file);
         if (doc == null)
             return current;
         
@@ -127,7 +127,7 @@ public class ProjectController {
     }
     
     public void saveProject (Project project) {
-        Document doc = DocumentUtil.create ();
+        Document doc = XMIDocument.create ();
         if (doc == null)
             return;
     

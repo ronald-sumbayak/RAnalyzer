@@ -18,7 +18,7 @@ import ra.sumbayak.ranalyzer.base.WindowExplorer;
 import ra.sumbayak.ranalyzer.entity.Project;
 import ra.sumbayak.ranalyzer.entity.UseCase;
 import ra.sumbayak.ranalyzer.entity.UseCaseDependency;
-import ra.sumbayak.ranalyzer.utils.DocumentUtil;
+import ra.sumbayak.ranalyzer.util.XMIDocument;
 
 public class UCDiagramController {
     
@@ -92,7 +92,7 @@ public class UCDiagramController {
         if (file == null)
             return;
         
-        Document doc = DocumentUtil.open (file);
+        Document doc = XMIDocument.open (file);
         if (doc == null)
             return;
         

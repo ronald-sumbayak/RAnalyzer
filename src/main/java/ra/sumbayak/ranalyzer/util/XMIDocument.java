@@ -1,4 +1,4 @@
-package ra.sumbayak.ranalyzer.utils;
+package ra.sumbayak.ranalyzer.util;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -10,7 +10,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class DocumentUtil {
+public class XMIDocument {
     
     public static Document create () {
         try {
