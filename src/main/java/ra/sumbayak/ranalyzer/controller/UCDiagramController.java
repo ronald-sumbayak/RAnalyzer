@@ -117,10 +117,8 @@ public class UCDiagramController {
             Integer type = d.getKey ();
             String src = d.getValue ().getKey ();
             String dst = d.getValue ().getValue ();
-            
-            UseCaseDependency dependency = new UseCaseDependency ();
-            dependency.connect (type, useCaseByName.get (src), useCaseByName.get (dst));
-            project.getDiagram ().addDependency (dependency);
+    
+            project.getDiagram ().addDependency (type, useCaseByName.get (src), useCaseByName.get (dst));
         }
         
         project.setUnsaved ();
@@ -145,7 +143,7 @@ public class UCDiagramController {
     
     public void removeUseCase (Project project, int index) {
         // remove use case
-        project.getDiagram ().getUseCaseList ().remove (index);
+        project.getDiagram ().removeUseCase (index);
         project.setUnsaved ();
     }
 }

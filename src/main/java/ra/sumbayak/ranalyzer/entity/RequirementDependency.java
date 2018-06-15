@@ -6,7 +6,7 @@ public class RequirementDependency {
     private Statement src, dst;
     private int type;
     
-    public void connect (int type, Statement src, Statement dst) {
+    RequirementDependency (int type, Statement src, Statement dst) {
         this.type = type;
         this.src = src;
         this.dst = dst;

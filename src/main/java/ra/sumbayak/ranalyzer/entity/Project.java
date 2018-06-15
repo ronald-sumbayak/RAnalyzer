@@ -38,20 +38,16 @@ public class Project {
         return graph;
     }
     
-    public void setGraph (RequirementDependencyGraph graph) {
-        this.graph = graph;
-    }
-    
     public UseCaseDiagram getDiagram () {
         return diagram;
     }
     
-    public void setDiagram (UseCaseDiagram diagram) {
-        this.diagram = diagram;
-    }
-    
     public void addStatement (Statement statement) {
         statements.add (statement);
+    }
+    
+    public void addDependency (int type, int srcIndex, int dstIndex) {
+        graph.addDependency (type, statements.get (srcIndex), statements.get (dstIndex));
     }
     
     public List<Statement> getStatements () {

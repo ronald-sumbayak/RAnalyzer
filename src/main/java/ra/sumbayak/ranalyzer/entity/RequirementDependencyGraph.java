@@ -7,8 +7,8 @@ public class RequirementDependencyGraph {
     
     private List<RequirementDependency> dependencyList = new ArrayList<> ();
     
-    public void addDependency (RequirementDependency dependency) {
-        dependencyList.add (dependency);
+    void addDependency (int type, Statement src, Statement dst) {
+        dependencyList.add (new RequirementDependency (type, src, dst));
     }
     
     public List<RequirementDependency> getDependencyList () {

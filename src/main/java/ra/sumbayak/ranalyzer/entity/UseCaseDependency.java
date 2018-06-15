@@ -8,7 +8,7 @@ public class UseCaseDependency {
     private UseCase src, dst;
     private int type;
     
-    public void connect (int type, UseCase src, UseCase dst) {
+    UseCaseDependency (int type, UseCase src, UseCase dst) {
         this.type = type;
         this.src = src;
         this.dst = dst;

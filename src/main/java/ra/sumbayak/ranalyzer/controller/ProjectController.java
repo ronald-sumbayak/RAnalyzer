@@ -70,12 +70,10 @@ public class ProjectController {
                     break;
                     
                 case "UseCaseDependency":
-                    int ucType = Integer.valueOf (attrs.getNamedItem ("type").getNodeValue ());
+                    int ucDependencyType = Integer.valueOf (attrs.getNamedItem ("type").getNodeValue ());
                     int ucSrc = Integer.valueOf (attrs.getNamedItem ("src").getNodeValue ());
                     int ucDst = Integer.valueOf (attrs.getNamedItem ("dst").getNodeValue ());
-                    UseCaseDependency useCaseDependency = new UseCaseDependency ();
-                    useCaseDependency.connect (ucType, project.getDiagram ().getUseCaseList ().get (ucSrc), project.getDiagram ().getUseCaseList ().get (ucDst));
-                    project.getDiagram ().addDependency (useCaseDependency);
+                    project.getDiagram ().addDependency (ucDependencyType, project.getDiagram ().getUseCaseList ().get (ucSrc), project.getDiagram ().getUseCaseList ().get (ucDst));
                     break;
                     
                 case "Statement":
@@ -87,9 +85,7 @@ public class ProjectController {
                     int rDependencyType = Integer.valueOf (attrs.getNamedItem ("type").getNodeValue ());
                     int rSrc = Integer.valueOf (attrs.getNamedItem ("src").getNodeValue ());
                     int rDst = Integer.valueOf (attrs.getNamedItem ("dst").getNodeValue ());
-                    RequirementDependency requirementDependency = new RequirementDependency ();
-                    requirementDependency.connect (rDependencyType, project.getStatements ().get (rSrc), project.getStatements ().get (rDst));
-                    project.getGraph ().addDependency (requirementDependency);
+                    project.addDependency (rDependencyType, rSrc, rDst);
                     break;
                     
                 default: break;
