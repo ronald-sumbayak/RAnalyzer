@@ -7,13 +7,15 @@
     <artifactId>ranalyzer</artifactId>
     <version>1.1</version>
     
-    <name>ranalyzer</name>
-    <url>http://p.rsmbyk.com/ranalyzer</url>
+    <name>RAnalyzer</name>
+    <description>A program to generate Dependency Diagram from Use Case Diagram</description>
+    <url>https://p.rsmbyk.com/ranalyzer</url>
+    <inceptionYear>2018</inceptionYear>
     
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
     <dependencies>
@@ -66,41 +68,86 @@
         <dependency>
             <groupId>edu.cmu.lti</groupId>
             <artifactId>jawjaw</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/jawjaw-1.0.2.jar</systemPath>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>edu.cmu.lti</groupId>
             <artifactId>ws4j</artifactId>
             <version>1.0.1</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ws4j-1.0.1.jar</systemPath>
         </dependency>
         <!--<dependency>-->
             <!--<groupId>de.sciss</groupId>-->
             <!--<artifactId>jawjaw</artifactId>-->
             <!--<version>0.1.0</version>-->
         <!--</dependency>-->
-        <dependency>
-            <groupId>de.sciss</groupId>
-            <artifactId>ws4j</artifactId>
-            <version>0.1.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>de.sciss</groupId>-->
+            <!--<artifactId>ws4j</artifactId>-->
+            <!--<version>0.1.0</version>-->
+        <!--</dependency>-->
     </dependencies>
     
     <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>install-jawjaw</id>
+                        <configuration>
+                            <file>${basedir}/lib/jawjaw-1.0.2.jar</file>
+                            <groupId>edu.cmu.lti</groupId>
+                            <artifactId>jawjaw</artifactId>
+                            <version>1.0.2</version>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <phase>clean</phase>
+                    </execution>
+                    <execution>
+                        <id>install-ws4j</id>
+                        <configuration>
+                            <file>${basedir}/lib/ws4j-1.0.1.jar</file>
+                            <groupId>edu.cmu.lti</groupId>
+                            <artifactId>ws4j</artifactId>
+                            <version>1.0.1</version>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <phase>clean</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>ra.sumbayak.ranalyzer.RAnalyzer</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
-                <plugin>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
-                </plugin>
-                <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-                <plugin>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.1.0</version>
-                </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.7.0</version>
@@ -109,56 +156,16 @@
                         <target>8</target>
                     </configuration>
                 </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.21.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.1.0</version>
-                    <configuration>
-                        <archive>
-                            <manifest>
-                                <addClasspath>true</addClasspath>
-                                <mainClass>ra.sumbayak.ranalyzer.RAnalyzer</mainClass>
-                            </manifest>
-                        </archive>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>2.5.2</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.8.2</version>
-                </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <mainClass>ra.sumbayak.ranalyzer.RAnalyzer</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
+    
+    <developers>
+        <developer>
+            <id>rsmbyk</id>
+            <name>Ronald Sumbayak</name>
+            <email>ronaldsumbayak611@gmail.com</email>
+            <timezone>Asia/Jakarta</timezone>
+        </developer>
+    </developers>
 </project>

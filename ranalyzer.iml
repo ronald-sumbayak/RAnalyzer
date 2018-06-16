@@ -32,25 +32,7 @@
     <orderEntry type="library" name="Maven: com.intellij:annotations:12.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.opennlp:opennlp-tools:1.8.4" level="project" />
     <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.23.1" level="project" />
-    <orderEntry type="module-library">
-      <library name="Maven: edu.cmu.lti:jawjaw:1.0.0">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/jawjaw-1.0.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Maven: edu.cmu.lti:ws4j:1.0.1">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/ws4j-1.0.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="Maven: de.sciss:ws4j:0.1.0" level="project" />
-    <orderEntry type="library" name="Maven: de.sciss:jawjaw:0.1.0" level="project" />
+    <orderEntry type="library" name="Maven: edu.cmu.lti:jawjaw:1.0.2" level="project" />
+    <orderEntry type="library" name="Maven: edu.cmu.lti:ws4j:1.0.1" level="project" />
   </component>
 </module>
