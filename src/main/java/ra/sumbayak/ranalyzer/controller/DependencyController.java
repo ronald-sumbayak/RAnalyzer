@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import ra.sumbayak.ranalyzer.base.Progress;
 import ra.sumbayak.ranalyzer.entity.Project;
 import ra.sumbayak.ranalyzer.entity.RequirementDependency;
 import ra.sumbayak.ranalyzer.entity.Statement;
@@ -16,7 +17,7 @@ import ra.sumbayak.ranalyzer.entity.UseCase;
 import ra.sumbayak.ranalyzer.entity.UseCaseDependency;
 import ra.sumbayak.ranalyzer.util.text.TextProcessing;
 import ra.sumbayak.ranalyzer.util.text.wupalmer.WuPalmerCell;
-import ra.sumbayak.ranalyzer.util.text.wupalmer.WuPalmerQueue;
+import ra.sumbayak.ranalyzer.util.text.wupalmer.WuPalmerTable;
 
 public class DependencyController {
     
@@ -51,53 +52,70 @@ public class DependencyController {
     }
     
     public void checkDependency (@NotNull Project project) {
-        List<List<String>> sToken = new ArrayList<> ();
-        List<List<String>> nToken = new ArrayList<> ();
-        List<List<String>> dToken = new ArrayList<> ();
+        Progress progress = new Progress ("Loading");
+        progress.show ();
         
-        for (Statement s : project.getStatements ())
-            sToken.add (TextProcessing.tokenize (s.getValue ()));
-        
-        for (UseCase uc : project.getDiagram ().getUseCaseList ()) {
-            nToken.add (TextProcessing.tokenize (uc.getName ()));
-            dToken.add (TextProcessing.tokenize (uc.getDescription ()));
-        }
-        
-        int row = project.getDiagram ().getUseCaseList ().size ();
-        int col = project.getStatements ().size ();
-        
-        double[][] similarityTable = new double[row][col];
-        double nWeight = 0.5;
-        double dWeight = 0.5;
-        
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                WuPalmerQueue nQueue = WuPalmerQueue.fromToken (nToken.get (i), sToken.get (j));
-                WuPalmerQueue dQueue = WuPalmerQueue.fromToken (dToken.get (i), sToken.get (j));
-                WuPalmerQueue fQueue = WuPalmerQueue.merge (nQueue, dQueue, nWeight, dWeight);
-                similarityTable[i][j] = fQueue.calculateSimilarity ();
+        try {
+            List<List<String>> sToken = new ArrayList<> ();
+            List<List<String>> nToken = new ArrayList<> ();
+            List<List<String>> dToken = new ArrayList<> ();
+            
+            for (Statement s : project.getStatements ())
+                sToken.add (TextProcessing.tokenize (s.getValue ()));
+            
+            for (UseCase uc : project.getDiagram ().getUseCaseList ()) {
+                nToken.add (TextProcessing.tokenize (uc.getName ()));
+                dToken.add (TextProcessing.tokenize (uc.getDescription ()));
             }
-        }
-        
-        List<WuPalmerCell> filtered = new ArrayList<> ();
-        double threshold = 0.5f;
-        
-        for (int i = 0; i < row; i++)
-            for (int j = 0; j < col; j++)
-                if (similarityTable[i][j] >= threshold)
-                    filtered.add (new WuPalmerCell (i, j, similarityTable[i][j]));
-        
-        for (WuPalmerCell c1 : filtered) {
-            for (WuPalmerCell c2 : filtered) {
-                if (c1 == c2)
-                    continue;
-                
-                UseCaseDependency ucDependency = project.getDiagram ().getDependency (c1.getRow (), c2.getRow ());
-                if (ucDependency != null)
-                    project.addDependency (ucDependency.getType (), c1.getCol (), c2.getCol ());
+            
+            int row = project.getDiagram ().getUseCaseList ().size ();
+            int col = project.getStatements ().size ();
+            
+            double[][] similarityTable = new double[row][col];
+            double nWeight = 0.5;
+            double dWeight = 0.5;
+            
+            WuPalmerTable.initWuPalmerImpl ();
+            
+            for (int i = 0; i < row; i++) {
+                for (int j = 0; j < col; j++) {
+                    if (sToken.get (j).size () < 1)
+                        continue;
+                    
+                    if (nToken.get (i).size () > 0)
+                        similarityTable[i][j] += nWeight * WuPalmerTable.create (nToken.get (i), sToken.get (j))
+                                                                        .calcSimilarity ();
+                    if (dToken.get (i).size () > 0)
+                        similarityTable[i][j] += dWeight * WuPalmerTable.create (dToken.get (i), sToken.get (j))
+                                                                        .calcSimilarity ();
+                }
             }
+            
+            List<WuPalmerCell> filtered = new ArrayList<> ();
+            double threshold = 0.1f;
+            
+            for (int i = 0; i < row; i++)
+                for (int j = 0; j < col; j++)
+                    if (similarityTable[i][j] >= threshold)
+                        filtered.add (new WuPalmerCell (i, j, similarityTable[i][j]));
+            
+            for (int i = 0; i < filtered.size (); i++) {
+                for (int j = i+1; j < filtered.size (); j++) {
+                    WuPalmerCell c1 = filtered.get (i);
+                    WuPalmerCell c2 = filtered.get (j);
+                    
+                    UseCaseDependency ucDependency = project.getDiagram ().getDependency (c1.getRow (), c2.getRow ());
+                    if (ucDependency != null)
+                        project.addDependency (ucDependency.getType (), c1.getCol (), c2.getCol ());
+                }
+            }
+    
+            progress.dismiss ();
+            viewDependency (project);
         }
-        
-        viewDependency (project);
+        catch (Exception e) {
+            e.printStackTrace ();
+            progress.dismiss ();
+        }
     }
 }
