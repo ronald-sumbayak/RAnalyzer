@@ -140,7 +140,7 @@ public class ProjectController {
             return;
     
         Element ran = doc.createElement ("RAN");
-        ran.setAttribute ("version", "1.1");
+        ran.setAttribute ("version", "1.2");
         ran.setAttribute ("name", project.getName ());
         doc.appendChild (ran);
         
