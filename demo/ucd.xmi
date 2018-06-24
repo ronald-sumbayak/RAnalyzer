@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1">
+	<xmi:Documentation exporter="StarUML" exporterVersion="2.0"/>
+	<uml:Model xmi:id="AAAAAAFiS7nHsnZRWzE=" xmi:type="uml:Model" name="RootModel">
+		<packagedElement xmi:id="AAAAAAFF+qBWK6M3Z8Y=" name="Model" visibility="public" xmi:type="uml:Model">
+			<packagedElement xmi:id="AAAAAAFhuUl9YHGzD48=" name="display list of accepted tutorial" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:UseCase">
+				<ownedMember xmi:id="AAAAAAFhuVN5Y3OptsA=" name="UC01" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Artifact">
+					<xmi:Extension extender="StarUML">
+						<documentation value="1. User or Student can view the list of tutorial that user have been submit before and already
+accepted by admin.
+2. Student Already login to the system
+3. System is online and connected to database
+4. Student select “Display List of Accepted
+Tutorial” page 
+5. System display the list of tutorial
+6. The list of accepted tutorial is displayed"/>
+					</xmi:Extension>
+				</ownedMember>
+				<xmi:Extension extender="StarUML">
+					<documentation value="display list accepted tutorial. user student view. have submit admin. page. system."/>
+				</xmi:Extension>
+			</packagedElement>
+			<packagedElement xmi:id="AAAAAAFhuUow53HiwTQ=" name="student" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Actor">
+				<ownedMember xmi:id="AAAAAAFhuUpljXIMGu4=" visibility="public" xmi:type="uml:Association" isDerived="false">
+					<ownedEnd xmi:id="AAAAAAFhuUpljnINS0U=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFhuUow53HiwTQ="/>
+					<ownedEnd xmi:id="AAAAAAFhuUplj3IOr6c=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFhuUl9YHGzD48="/>
+					<memberEnd xmi:idref="AAAAAAFhuUpljnINS0U="/>
+					<memberEnd xmi:idref="AAAAAAFhuUplj3IOr6c="/>
+				</ownedMember>
+				<ownedMember xmi:id="AAAAAAFhuZfetXf1FKg=" visibility="public" xmi:type="uml:Association" isDerived="false">
+					<ownedEnd xmi:id="AAAAAAFhuZfetXf2jy0=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFhuUow53HiwTQ="/>
+					<ownedEnd xmi:id="AAAAAAFhuZfetXf3wM8=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFhuZedjndUn1U="/>
+					<memberEnd xmi:idref="AAAAAAFhuZfetXf2jy0="/>
+					<memberEnd xmi:idref="AAAAAAFhuZfetXf3wM8="/>
+				</ownedMember>
+				<ownedMember xmi:id="AAAAAAFhuZi+N3omc1o=" visibility="public" xmi:type="uml:Association" isDerived="false">
+					<ownedEnd xmi:id="AAAAAAFhuZi+OHonyhc=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFhuUow53HiwTQ="/>
+					<ownedEnd xmi:id="AAAAAAFhuZi+OHooE+A=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFhuZgXP3hxHt0="/>
+					<memberEnd xmi:idref="AAAAAAFhuZi+OHonyhc="/>
+					<memberEnd xmi:idref="AAAAAAFhuZi+OHooE+A="/>
+				</ownedMember>
+				<ownedMember xmi:id="AAAAAAFhuZjmqXsDsyg=" visibility="public" xmi:type="uml:Association" isDerived="false">
+					<ownedEnd xmi:id="AAAAAAFhuZjmqXsEIJI=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFhuUow53HiwTQ="/>
+					<ownedEnd xmi:id="AAAAAAFhuZjmqXsFB0Y=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFhuZhslXkwK4g="/>
+					<memberEnd xmi:idref="AAAAAAFhuZjmqXsEIJI="/>
+					<memberEnd xmi:idref="AAAAAAFhuZjmqXsFB0Y="/>
+				</ownedMember>
+			</packagedElement>
+			<packagedElement xmi:id="AAAAAAFhuYksBHRKWwg=" name="display tutorial participants" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:UseCase">
+				<ownedMember xmi:id="AAAAAAFhuYnM9nTbgZ0=" name="UC02" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Artifact">
+					<xmi:Extension extender="StarUML">
+						<documentation value="1. User/Student can view the list of tutorial that 
+user have been submit before and see the
+registered participant of each tutorials. 
+2. Student Already login to the system
+3. System is online and connected to database
+4. The list is already displayed 
+5. Student select one of tutorials, and see
+participants 
+6. System display the participants of
+tutorial"/>
+					</xmi:Extension>
+				</ownedMember>
+				<xmi:Extension extender="StarUML">
+					<documentation value="display tutorial participant. student view list user have submit see registered. system"/>
+				</xmi:Extension>
+				<extend xmi:id="AAAAAAFhuZXoZXZ2vkU=" visibility="public" xmi:type="uml:Extend" extendedCase="AAAAAAFhuUl9YHGzD48=" extension="AAAAAAFhuYksBHRKWwg="/>
+			</packagedElement>
+			<packagedElement xmi:id="AAAAAAFhuZS6/nU/+uA=" name="cancel tutorial" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:UseCase">
+				<ownedMember xmi:id="AAAAAAFhubK82oVnRXA=" name="UC08" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Artifact" fileName="cancel tutorial">
+					<xmi:Extension extender="StarUML">
+						<documentation value="1. Admin specify the desire tutorial to be
+respond 
+2. Admin click ‘cancel’ button on specified
+tutorial 
+3. System give confirmation dialogue to
+ensure the Admin 
+4. Admin fill the explanation form and
+accept the confirmation dialogue 
+5. System mark tutorial as rejected
+tutorial 
+5. System send notify to user that request
+tutorial 
+6. System give notification that process is
+success"/>
+					</xmi:Extension>
+				</ownedMember>
+				<xmi:Extension extender="StarUML">
+					<documentation value="cancel tutorial. specify desire respond. click button system give confirmation dialogue. fill explanation accept. mark reject. send notify user request. notification process success."/>
+				</xmi:Extension>
+				<include xmi:id="AAAAAAFhuZVexXX+ZOM=" visibility="public" xmi:type="uml:Include" addition="AAAAAAFhuUl9YHGzD48=" includingCase="AAAAAAFhuZS6/nU/+uA="/>
+			</packagedElement>
+			<packagedElement xmi:id="AAAAAAFhuZYMZnafrpE=" name="admin" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Actor">
+				<ownedMember xmi:id="AAAAAAFhuZYvBnbwpIM=" visibility="public" xmi:type="uml:Association" isDerived="false">
+					<ownedEnd xmi:id="AAAAAAFhuZYvBnbxvlk=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFhuZYMZnafrpE="/>
+					<ownedEnd xmi:id="AAAAAAFhuZYvB3by/Jc=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFhuZS6/nU/+uA="/>
+					<memberEnd xmi:idref="AAAAAAFhuZYvBnbxvlk="/>
+					<memberEnd xmi:idref="AAAAAAFhuZYvB3by/Jc="/>
+				</ownedMember>
+				<ownedMember xmi:id="AAAAAAFhuZrdNIBbK24=" visibility="public" xmi:type="uml:Association" isDerived="false">
+					<ownedEnd xmi:id="AAAAAAFhuZrdNYBcNeQ=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFhuZYMZnafrpE="/>
+					<ownedEnd xmi:id="AAAAAAFhuZrdNYBds4A=" visibility="public" isStatic="false" isLeaf="false" isReadOnly="false" isOrdered="false" isUnique="false" xmi:type="uml:Property" aggregation="none" isDerived="false" isID="false" type="AAAAAAFhuZkxlXwKhlc="/>
+					<memberEnd xmi:idref="AAAAAAFhuZrdNYBcNeQ="/>
+					<memberEnd xmi:idref="AAAAAAFhuZrdNYBds4A="/>
+				</ownedMember>
+			</packagedElement>
+			<packagedElement xmi:id="AAAAAAFhuZedjndUn1U=" name="request tutorial" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:UseCase">
+				<ownedMember xmi:id="AAAAAAFhuZ5MuIF6UdY=" name="UC03" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Artifact">
+					<xmi:Extension extender="StarUML">
+						<documentation value="1. User or Students can make a request of Tutorial
+2. Student Already login to the system 
+3. System is online and connected to database
+4. Student select “Request tutorial” menu 
+5. System display form request for tutorial
+6. Student fill the form, then click 
+submit/request button 
+7. System get the request"/>
+					</xmi:Extension>
+				</ownedMember>
+				<xmi:Extension extender="StarUML">
+					<documentation value="request tutorial. user make. student menu. system display. student fill click submit button."/>
+				</xmi:Extension>
+			</packagedElement>
+			<packagedElement xmi:id="AAAAAAFhuZgXP3hxHt0=" name="join tutorial" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:UseCase">
+				<ownedMember xmi:id="AAAAAAFhuaLJA4I7CJw=" name="UC04" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Artifact">
+					<xmi:Extension extender="StarUML">
+						<documentation value="1. User/Student can join on tutorial that already 
+requested by other user. User will be enroll to
+that tutorial as participant 
+2.  Student Already login to the system
+3.  System is online and connected to database
+4.  There is tutorial that requested by other 
+user
+5. Student go to “Home Page” 
+6. System display the list of available 
+tutorial that already requested by other
+user
+7. Student specify the desired tutorial
+8. Student click “join” button on specified 
+tutorial
+9.  System give confirmation dialogue to
+ensure the user
+10. Student accept the confirmation
+dialogue 
+11. System enroll the student as a
+participant to the tutorial 
+12. System give notification process is
+success"/>
+					</xmi:Extension>
+				</ownedMember>
+				<xmi:Extension extender="StarUML">
+					<documentation value="join tutorial. student requested user. will enroll participant. home page system display.specify desired. click button. give confirmation dialogue ensure. accept. notification process success"/>
+				</xmi:Extension>
+			</packagedElement>
+			<packagedElement xmi:id="AAAAAAFhuZhslXkwK4g=" name="display tutorial history" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:UseCase">
+				<ownedMember xmi:id="AAAAAAFhuase74LcYFU=" name="UC05" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Artifact">
+					<xmi:Extension extender="StarUML">
+						<documentation value="1.  User select “History” menu
+2.System fetch information from 
+database
+3. System display tutorials that ever 
+request by user
+4. System display message ‘History is
+empty’.
+5. User close dialogue message 
+6. System take user to home page
+7.  Use case end"/>
+					</xmi:Extension>
+				</ownedMember>
+				<xmi:Extension extender="StarUML">
+					<documentation value="display tutorial history student detail user menu system information database request"/>
+				</xmi:Extension>
+			</packagedElement>
+			<packagedElement xmi:id="AAAAAAFhuZkxlXwKhlc=" name="respond tutorial request" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:UseCase">
+				<ownedMember xmi:id="AAAAAAFhubBXMoSkYPg=" name="UC07" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Artifact">
+					<xmi:Extension extender="StarUML">
+						<documentation value="1. Admin respond the requested tutorial wather 
+the requested is Accepted or rejected to be
+held 
+2. Admin Already login to the system
+3. System is online and connected to database
+4. There is tutorial that requested by user 
+5. Admin specify the desire tutorial to be 
+respond
+6. Admin check details of tutorial to 
+decide
+7. Admin click ‘Accept’ or ‘reject’ button 
+on specified tutorial
+8. Admin accept the confirmation dialogue
+9.  System give notification dialogue to
+ensure the admin 
+10. System mark tutorial as Accepted 
+tutorial or rejected tutorial based on
+(Step 5)"/>
+					</xmi:Extension>
+				</ownedMember>
+				<xmi:Extension extender="StarUML">
+					<documentation value="respond tutorial request. accept reject held. specify desire. check details decide. click button. system give notification dialogue ensure.  confirmation dialogue. mark based. send user. notification process success ."/>
+				</xmi:Extension>
+				<include xmi:id="AAAAAAFhuZrDzX+lO2Q=" visibility="public" xmi:type="uml:Include" addition="AAAAAAFhuZnqjn1nvqQ=" includingCase="AAAAAAFhuZkxlXwKhlc="/>
+			</packagedElement>
+			<packagedElement xmi:id="AAAAAAFhuZnqjn1nvqQ=" name="displey list of request tutorial" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:UseCase">
+				<ownedMember xmi:id="AAAAAAFhua4l+4OwDJE=" name="UC06" visibility="public" isAbstract="false" isFinalSpecialization="false" isLeaf="false" xmi:type="uml:Artifact">
+					<xmi:Extension extender="StarUML">
+						<documentation value="1. Admin can view the list of tutorial that user 
+have been submit before
+2. Admin  Already login to the system 
+3. System is online and connected to database
+4. Admin select “request Tutorial” page 
+5. System Display the list of Tutorial
+6."/>
+					</xmi:Extension>
+				</ownedMember>
+				<xmi:Extension extender="StarUML">
+					<documentation value="display requested tutorial. view tutorial user have submit. admin page. system"/>
+				</xmi:Extension>
+			</packagedElement>
+		</packagedElement>
+	</uml:Model>
+</xmi:XMI>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<RAN name="sample" version="1.1">
+  <package type="UseCase">
+    <UseCase description="user student view list tutorial submit accepted admin display page system" name="display list accept tutorial"/>
+    <UseCase description="user student view tutorial submit see registered participant system display" name="display tutorial participants"/>
+    <UseCase description="user make request tutorial student select menu system display form fill click submit button " name="request tutorial"/>
+    <UseCase description="user student join requested enroll tutorial participant home page display specify desired click join button give confirmation dialogue ensure accept dialogue system notification process success" name="join tutorial"/>
+    <UseCase description="user student display detail tutorials request history menu fetch information database system" name="display tutorial history"/>
+    <UseCase description="admin view tutorial user submit request page system display" name="display list request tutorial"/>
+    <UseCase description="admin respond requested wather rejected held specify desire check details decide button give notification dialogue ensure confirmation mark based send notify system process success" name="respond tutorial request"/>
+    <UseCase description="admin cancel tutorial accepted specify desire berespond click button give confirmation dialogue ensure fill explanation mark rejected system notify user request notification process success" name="cancel tutorial"/>
+  </package>
+  <package type="UseCaseDependency">
+    <UseCaseDependency dst="0" src="5" type="1"/>
+    <UseCaseDependency dst="0" src="6" type="0"/>
+    <UseCaseDependency dst="7" src="4" type="0"/>
+  </package>
+  <package type="Statement">
+    <Statement value="display information request"/>
+    <Statement value="display tutorial information accept"/>
+    <Statement value="place order request tutorial"/>
+    <Statement value="enroll students tutorial participants"/>
+    <Statement value="respond request tutorial"/>
+    <Statement value="cancel tutorial responds"/>
+  </package>
+</RAN>
