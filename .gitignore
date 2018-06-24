@@ -92,3 +92,6 @@ buildNumber.properties
 
 ### idea
 .idea/
+
+### Whitelist jar dependencies
+!/lib/*
