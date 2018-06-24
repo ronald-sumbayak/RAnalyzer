@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ra.sumbayak.ranalyzer.base.RequirementsStatementForm;
 import ra.sumbayak.ranalyzer.base.WindowExplorer;
@@ -16,8 +18,8 @@ public class StatementController {
     public void addStatement (Project project) {
         // open window explorer
         WindowExplorer windowExplorer = new WindowExplorer ("Open Statement File");
-        windowExplorer.addExtensionFilter ("Text File", "*.txt");
         windowExplorer.addExtensionFilter ("RAnalyzer Statement File", "*.rast");
+        windowExplorer.addExtensionFilter ("Text File", "*.txt");
     
         File file = windowExplorer.open ();
         if (file == null)
@@ -27,8 +29,13 @@ public class StatementController {
         try {
             BufferedReader reader = new BufferedReader (new FileReader (file));
             String line;
-            while ((line = reader.readLine ()) != null)
-                project.addStatement (new Statement (line));
+            Pattern pattern = Pattern.compile ("^\\(R\\d+\\) (.+)$");
+            
+            while ((line = reader.readLine ()) != null) {
+                Matcher matcher = pattern.matcher (line);
+                if (matcher.find ())
+                    project.addStatement (new Statement (matcher.group (1)));
+            }
         }
         catch (IOException e) {
             e.printStackTrace ();

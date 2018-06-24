@@ -1,14 +1,18 @@
 package ra.sumbayak.ranalyzer.entity;
 
-public class Requirement {
+public class Statement {
     
-    private Statement statement;
+    private String value;
     
-    public Requirement (Statement statement) {
-        this.statement = statement;
+    public Statement (String value) {
+        this.value = value;
     }
     
-    public Statement getStatement () {
-        return statement;
+    public String getValue () {
+        return value;
+    }
+    
+    public void setValue (String value) {
+        this.value = value;
     }
 }

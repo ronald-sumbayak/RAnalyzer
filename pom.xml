@@ -8,7 +8,7 @@
     <version>1.1</version>
     
     <name>RAnalyzer</name>
-    <description>A program to generate Dependency Diagram from Use Case Diagram</description>
+    <description>A program to generate Requirement Dependency Diagram from Use Case Diagram</description>
     <url>https://p.rsmbyk.com/ranalyzer</url>
     <inceptionYear>2018</inceptionYear>
     
