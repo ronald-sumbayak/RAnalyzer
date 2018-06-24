@@ -44,6 +44,7 @@ public class UseCaseDiagram {
     }
     
     public UseCaseDependency getDependency (int src, int dst) {
+        System.out.println (String.format ("%d %d", src+1, dst+1));
         return Stream.of (dependencyAdjacency.get (src).get (dst), dependencyAdjacency.get (dst).get (src)).filter (Objects::nonNull).findFirst ().orElse (null);
     }
 }

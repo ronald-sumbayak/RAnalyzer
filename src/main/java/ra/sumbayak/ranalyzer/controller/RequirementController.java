@@ -5,21 +5,19 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import ra.sumbayak.ranalyzer.base.RequirementsStatementForm;
 import ra.sumbayak.ranalyzer.base.WindowExplorer;
 import ra.sumbayak.ranalyzer.entity.Project;
-import ra.sumbayak.ranalyzer.entity.Statement;
+import ra.sumbayak.ranalyzer.entity.Requirement;
 
-public class StatementController {
+public class RequirementController {
     
     public void addStatement (Project project) {
         // open window explorer
-        WindowExplorer windowExplorer = new WindowExplorer ("Open Statement File");
-        windowExplorer.addExtensionFilter ("RAnalyzer Statement File", "*.rast");
+        WindowExplorer windowExplorer = new WindowExplorer ("Open Requirement File");
         windowExplorer.addExtensionFilter ("Text File", "*.txt");
+        windowExplorer.addExtensionFilter ("RAnalyzer Requirement File", "*.rarq");
     
         File file = windowExplorer.open ();
         if (file == null)
@@ -29,13 +27,8 @@ public class StatementController {
         try {
             BufferedReader reader = new BufferedReader (new FileReader (file));
             String line;
-            Pattern pattern = Pattern.compile ("^\\(R\\d+\\) (.+)$");
-            
-            while ((line = reader.readLine ()) != null) {
-                Matcher matcher = pattern.matcher (line);
-                if (matcher.find ())
-                    project.addStatement (new Statement (matcher.group (1)));
-            }
+            while ((line = reader.readLine ()) != null)
+                project.addStatement (new Requirement (line));
         }
         catch (IOException e) {
             e.printStackTrace ();
@@ -46,7 +39,7 @@ public class StatementController {
     
     public void editStatement (Project project, int index) {
         // show requirements statement form
-        RequirementsStatementForm form = new RequirementsStatementForm (project.getStatements ().get (index).getValue ());
+        RequirementsStatementForm form = new RequirementsStatementForm (project.getRequirements ().get (index).getValue ());
         Map<String, String> values = form.show ();
     
         if (values == null)
@@ -54,13 +47,13 @@ public class StatementController {
         
         // edit statement
         String s = values.get (RequirementsStatementForm.STATEMENT);
-        project.getStatements ().get (index).setValue (s);
+        project.getRequirements ().get (index).setValue (s);
         project.setUnsaved ();
     }
     
     public void deleteStatement (Project project, int index) {
         // remove statement
-        project.getStatements ().remove (index);
+        project.getRequirements ().remove (index);
         project.setUnsaved ();
     }
 }

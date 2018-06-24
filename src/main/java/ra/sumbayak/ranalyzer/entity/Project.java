@@ -12,7 +12,7 @@ public class Project {
     
     private RequirementDependencyGraph graph = new RequirementDependencyGraph ();
     private UseCaseDiagram diagram = new UseCaseDiagram ();
-    private List<Statement> statements = new ArrayList<> ();
+    private List<Requirement> requirements = new ArrayList<> ();
     private ProjectState state;
     private String name;
     private File file;
@@ -42,16 +42,16 @@ public class Project {
         return diagram;
     }
     
-    public void addStatement (Statement statement) {
-        statements.add (statement);
+    public void addStatement (Requirement statement) {
+        requirements.add (statement);
     }
     
     public void addDependency (int type, int srcIndex, int dstIndex) {
-        graph.addDependency (type, statements.get (srcIndex), statements.get (dstIndex));
+        graph.addDependency (type, requirements.get (srcIndex), requirements.get (dstIndex));
     }
     
-    public List<Statement> getStatements () {
-        return statements;
+    public List<Requirement> getRequirements () {
+        return requirements;
     }
     
     public void setSaved () {

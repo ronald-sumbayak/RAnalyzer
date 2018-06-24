@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.ColumnConstraints;
@@ -22,10 +23,10 @@ import ra.sumbayak.ranalyzer.entity.UseCase;
 
 public class UCDiagramWindowController {
     
-    @FXML
-    private JFXListView<UseCase> ucDiagramListView;
-    private ObservableList<UseCase> ucDiagramItems;
+    @FXML private JFXListView<UseCase> ucDiagramListView;
+    @FXML private Button addUCDiagramButton;
     
+    private ObservableList<UseCase> ucDiagramItems;
     private UCDiagramController controller;
     private Project project;
     
@@ -81,12 +82,12 @@ public class UCDiagramWindowController {
                 grid.setVgap (4);
                 grid.setPadding (new Insets (10, 10, 10, 10));
     
-                Label id = new Label ("UC" + String.valueOf (getIndex ()));
+                Label id = new Label ("UC" + String.valueOf (getIndex () + 1));
                 Label name = new Label (item.getName ());
                 Separator separator = new Separator (Orientation.VERTICAL);
     
                 if (item.getDescription () != null && item.getDescription ().length () > 0)
-                    grid.add (new Label (item.getDescription ()), 1, 2, 3, 1);
+                    grid.add (new Label (item.getDescription ()), 1, 2);
     
                 JFXButton editDescriptionButton = new JFXButton ("Edit");
                 editDescriptionButton.setOnMouseClicked (event -> editDescription (getIndex ()));
@@ -108,5 +109,10 @@ public class UCDiagramWindowController {
                 setText (null);
             }
         }
+    }
+    
+    void setLoading (boolean loading) {
+        addUCDiagramButton.setDisable (loading);
+        ucDiagramListView.setDisable (loading);
     }
 }

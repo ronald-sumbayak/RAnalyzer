@@ -18,12 +18,11 @@ import javax.xml.transform.stream.StreamResult;
 
 import javafx.application.Platform;
 import ra.sumbayak.ranalyzer.base.DialogBox;
-import ra.sumbayak.ranalyzer.base.Progress;
 import ra.sumbayak.ranalyzer.base.ProjectDescriptionWindow;
 import ra.sumbayak.ranalyzer.base.WindowExplorer;
 import ra.sumbayak.ranalyzer.entity.Project;
 import ra.sumbayak.ranalyzer.entity.RequirementDependency;
-import ra.sumbayak.ranalyzer.entity.Statement;
+import ra.sumbayak.ranalyzer.entity.Requirement;
 import ra.sumbayak.ranalyzer.entity.UseCase;
 import ra.sumbayak.ranalyzer.entity.UseCaseDependency;
 import ra.sumbayak.ranalyzer.util.XMIDocument;
@@ -76,9 +75,9 @@ public class ProjectController {
                     project.getDiagram ().addDependency (ucDependencyType, project.getDiagram ().getUseCaseList ().get (ucSrc), project.getDiagram ().getUseCaseList ().get (ucDst));
                     break;
                     
-                case "Statement":
+                case "Requirement":
                     String value = attrs.getNamedItem ("value").getNodeValue ();
-                    project.addStatement (new Statement (value));
+                    project.addStatement (new Requirement (value));
                     break;
                     
                 case "RequirementDependency":
@@ -86,6 +85,21 @@ public class ProjectController {
                     int rSrc = Integer.valueOf (attrs.getNamedItem ("src").getNodeValue ());
                     int rDst = Integer.valueOf (attrs.getNamedItem ("dst").getNodeValue ());
                     project.addDependency (rDependencyType, rSrc, rDst);
+                    break;
+                    
+                case "package":
+                    switch (attrs.getNamedItem ("type").getNodeValue ()) {
+                        case "RequirementDependency":
+                            if (attrs.getNamedItem ("nameWeight") != null)
+                                project.getGraph ().setNameWeight (Double.valueOf (attrs.getNamedItem ("nameWeight").getNodeValue ()));
+                            if (attrs.getNamedItem ("descriptionWeight") != null)
+                                project.getGraph ().setDescriptionWeight (Double.valueOf (attrs.getNamedItem ("descriptionWeight").getNodeValue ()));
+                            if (attrs.getNamedItem ("threshold") != null)
+                                project.getGraph ().setThreshold (Double.valueOf (attrs.getNamedItem ("threshold").getNodeValue ()));
+                            break;
+                            
+                        default: break;
+                    }
                     break;
                     
                 default: break;
@@ -97,19 +111,18 @@ public class ProjectController {
     }
     
     public Project openExistingProject (Project current) {
-        WindowExplorer windowExplorer = new WindowExplorer ("Open Existing Project");
-        windowExplorer.addExtensionFilter ("RAnalyzer Project File", "*.ran");
-        
-        File file = windowExplorer.open ();
-        if (file == null)
-            return current;
+        //WindowExplorer windowExplorer = new WindowExplorer ("Open Existing Project");
+        //windowExplorer.addExtensionFilter ("RAnalyzer Project File", "*.ran");
+        //
+        //File file = windowExplorer.open ();
+        //if (file == null)
+        //    return current;
+    
+        File file = new File ("C:\\Users\\ronald\\Documents\\RAnalyzerProjects\\sample2.ran");
     
         Document doc = XMIDocument.open (file);
         if (doc == null)
             return current;
-        
-        Progress progress = new Progress ("Loading project");
-        progress.show ();
         
         // extract project
         Element ran = doc.getDocumentElement ();
@@ -118,7 +131,6 @@ public class ProjectController {
     
         project.setFile (file);
         project.setSaved ();
-        progress.dismiss ();
         return project;
     }
     
@@ -146,7 +158,7 @@ public class ProjectController {
                 pkg.appendChild (uc);
             }
         }
-        
+    
         if (project.getDiagram ().getDependencyList ().size () > 0) {
             // write use case dependencies
             pkg = doc.createElement ("package");
@@ -160,14 +172,14 @@ public class ProjectController {
                 pkg.appendChild (ucd);
             }
         }
-        
-        if (project.getStatements ().size () > 0) {
+    
+        if (project.getRequirements ().size () > 0) {
             // write statements
             pkg = doc.createElement ("package");
-            pkg.setAttribute ("type", "Statement");
+            pkg.setAttribute ("type", "Requirement");
             ran.appendChild (pkg);
-            for (Statement statement : project.getStatements ()) {
-                Element s = doc.createElement ("Statement");
+            for (Requirement statement : project.getRequirements ()) {
+                Element s = doc.createElement ("Requirement");
                 s.setAttribute ("value", statement.getValue ());
                 pkg.appendChild (s);
             }
@@ -177,12 +189,15 @@ public class ProjectController {
             // write requirement dependencies
             pkg = doc.createElement ("package");
             pkg.setAttribute ("type", "RequirementDependency");
+            pkg.setAttribute ("nameWeight", String.valueOf (project.getGraph ().getNameWeight ()));
+            pkg.setAttribute ("descriptionWeight", String.valueOf (project.getGraph ().getDescriptionWeight ()));
+            pkg.setAttribute ("threshold", String.valueOf (project.getGraph ().getThreshold ()));
             ran.appendChild (pkg);
             for (RequirementDependency requirementDependency : project.getGraph ().getDependencyList ()) {
                 Element rd = doc.createElement ("RequirementDependency");
                 rd.setAttribute ("type", String.valueOf (requirementDependency.getType ()));
-                rd.setAttribute ("src", String.valueOf (project.getStatements ().indexOf (requirementDependency.getSrc ())));
-                rd.setAttribute ("dst", String.valueOf (project.getStatements ().indexOf (requirementDependency.getDst ())));
+                rd.setAttribute ("src", String.valueOf (project.getRequirements ().indexOf (requirementDependency.getSrc ())));
+                rd.setAttribute ("dst", String.valueOf (project.getRequirements ().indexOf (requirementDependency.getDst ())));
                 pkg.appendChild (rd);
             }
         }

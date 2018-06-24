@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ra.sumbayak.ranalyzer.boundary.ProjectWorksheetController">
+<VBox xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ra.sumbayak.ranalyzer.boundary.ProjectWorksheetController">
    <children>
-      <MenuBar>
+      <MenuBar fx:id="menuBar">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -38,33 +36,60 @@
           </Menu>
         </menus>
       </MenuBar>
-      <HBox>
+      <HBox alignment="BOTTOM_CENTER">
          <children>
-            <JFXButton onAction="#viewDependency" text="View Dependency">
+            <Button fx:id="viewDependencyButton" disable="true" mnemonicParsing="false" onAction="#viewDependency" text="View Dependency">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="checkDependencyButton" disable="true" mnemonicParsing="false" onAction="#checkDependency" text="Check Dependency">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" text="Name Weight" />
+                  <TextField fx:id="nameWeightTextField" alignment="CENTER" disable="true" promptText="0.5" />
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" top="10.0" />
+               </HBox.margin></VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label text="Description Weight" />
+                  <TextField fx:id="descriptionWeightTextField" alignment="CENTER" disable="true" promptText="0.5" />
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" top="10.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label text="Threshold" />
+                  <TextField fx:id="thresholdTextField" alignment="CENTER" disable="true" promptText="0.5" />
+               </children>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
-            </JFXButton>
-            <JFXButton onAction="#checkDependency" text="Check Dependency">
-               <HBox.margin>
-                  <Insets top="10.0" />
-               </HBox.margin>
-            </JFXButton>
+            </VBox>
          </children>
       </HBox>
       <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
         <items>
           <AnchorPane>
                <children>
-                  <TitledPane layoutY="-52.0" prefHeight="181.0" prefWidth="295.0" text="UML Diagram" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TitledPane collapsible="false" layoutY="-52.0" prefHeight="181.0" prefWidth="295.0" text="UML Diagram" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
                         <fx:include fx:id="ucDiagramWindow" source="UCDiagramWindow.fxml" />
-                     </content></TitledPane>
+                     </content>
+                  </TitledPane>
                </children>
             </AnchorPane>
           <AnchorPane>
                <children>
-                  <TitledPane layoutX="-14.0" layoutY="-12.0" prefHeight="181.0" prefWidth="295.0" text="Statement" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TitledPane collapsible="false" layoutX="-14.0" layoutY="-12.0" prefHeight="181.0" prefWidth="295.0" text="Statement" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
                         <fx:include fx:id="statementWindow" source="StatementWindow.fxml" />
                      </content></TitledPane>
@@ -72,5 +97,10 @@
             </AnchorPane>
         </items>
       </SplitPane>
+      <AnchorPane>
+         <children>
+            <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="736.0" progress="0.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
    </children>
 </VBox>

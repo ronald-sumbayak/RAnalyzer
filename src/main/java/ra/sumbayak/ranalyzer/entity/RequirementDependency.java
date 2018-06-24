@@ -2,21 +2,27 @@ package ra.sumbayak.ranalyzer.entity;
 
 public class RequirementDependency {
     
-    private static final int SIMILAR=0, REQUIRES=1, OR=2, TEMPORAL=3, ELABORATES=4, GENERALISES=5;
-    private Statement src, dst;
+    private static final int SIMILAR = 0;
+    private static final int OR = 1;
+    private static final int REQUIRES = 2;
+    private static final int TEMPORAL = 3;
+    private static final int ELABORATES = 4;
+    private static final int GENERALISES = 5;
+    
+    private Requirement src, dst;
     private int type;
     
-    RequirementDependency (int type, Statement src, Statement dst) {
+    RequirementDependency (int type, Requirement src, Requirement dst) {
         this.type = type;
         this.src = src;
         this.dst = dst;
     }
     
-    public Statement getSrc () {
+    public Requirement getSrc () {
         return src;
     }
     
-    public Statement getDst () {
+    public Requirement getDst () {
         return dst;
     }
     

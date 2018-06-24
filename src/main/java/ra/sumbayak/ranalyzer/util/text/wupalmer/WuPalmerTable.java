@@ -1,6 +1,7 @@
 package ra.sumbayak.ranalyzer.util.text.wupalmer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -18,18 +19,22 @@ public class WuPalmerTable {
     private int row, col;
     private static WuPalmer wuPalmer;
     
+    private WuPalmerCell[][] table;
+    
     private WuPalmerTable (int row, int col) {
         queue = new PriorityQueue<> (row * col, WuPalmerCell::compare);
         prime = new ArrayList<> ();
         this.row = row;
         this.col = col;
+        table = new WuPalmerCell[row][col];
     }
     
-    public static WuPalmerTable create (List<String> t1, List<String> t2) {
-        WuPalmerTable queue = new WuPalmerTable (t1.size (), t2.size ());
+    public static WuPalmerTable create (String[] t1, String[] t2) {
+        WuPalmerTable queue = new WuPalmerTable (t1.length, t2.length);
         for (int i = 0; i < queue.row; i++)
             for (int j = 0; j < queue.col; j++)
-                queue.set (i, j, wuPalmer.calcRelatednessOfWords (t1.get (i), t2.get (j)));
+                queue.set (i, j, wuPalmer.calcRelatednessOfWords (t1[i], t2[j]));
+                //System.out.println (String.format ("%s %s: %f", t1[i], t2[j], queue.table[i][j].value));
         return queue;
     }
     
@@ -38,6 +43,7 @@ public class WuPalmerTable {
             return;
         WuPalmerCell cell = new WuPalmerCell (row, col, value);
         queue.add (cell);
+        table[row][col] = cell;
     }
     
     private void calcPrime () {
@@ -59,9 +65,15 @@ public class WuPalmerTable {
     }
     
     public double calcSimilarity () {
+        print ();
         calcPrime ();
         double sum = prime.stream ().mapToDouble (value -> value.value).sum ();
-        return sum / prime.size ();
+        return 2 * sum / (row + col);
+    }
+    
+    private void print () {
+        for (WuPalmerCell[] t : table)
+            System.out.println (Arrays.toString (t));
     }
     
     public static void initWuPalmerImpl () {

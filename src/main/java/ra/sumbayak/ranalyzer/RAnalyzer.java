@@ -4,15 +4,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import ra.sumbayak.ranalyzer.boundary.ProjectWorksheetController;
+import ra.sumbayak.ranalyzer.util.text.wupalmer.WuPalmerTable;
 
 public class RAnalyzer extends Application {
     
     @Override
     public void start (Stage primaryStage) throws Exception {
-        Font.loadFont (RAnalyzer.class.getResource ("/fa/fontawesome-webfont.ttf").toExternalForm (), 10);
+        new Thread (WuPalmerTable::initWuPalmerImpl).start ();
         
         FXMLLoader loader = new FXMLLoader ();
         loader.setLocation (RAnalyzer.class.getResource ("/fx/ProjectWorksheet.fxml"));

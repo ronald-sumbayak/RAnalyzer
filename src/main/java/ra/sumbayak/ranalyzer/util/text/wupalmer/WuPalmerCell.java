@@ -6,7 +6,7 @@ public class WuPalmerCell {
     int row, col;
     
     public WuPalmerCell (int row, int col, double value) {
-        this.value = value;
+        this.value = Math.min (value, 1);
         this.row = row;
         this.col = col;
     }
@@ -25,5 +25,10 @@ public class WuPalmerCell {
     
     public int getCol () {
         return col;
+    }
+    
+    @Override
+    public String toString () {
+        return String.valueOf (value);
     }
 }

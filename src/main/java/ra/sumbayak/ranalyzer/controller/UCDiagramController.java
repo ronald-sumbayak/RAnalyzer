@@ -41,19 +41,19 @@ public class UCDiagramController {
                         String description = null;
                         
                         // try to extract description if any
-                        if (node.hasChildNodes ()) {
-                            NodeList extensions = node.getChildNodes ();
-                            for (int j = 0; j < extensions.getLength (); j++) {
-                                Node ext = extensions.item (j);
-                                if (ext.getNodeName ().equals ("xmi:Extension")) {
-                                    NodeList extChilds = ext.getChildNodes ();
-                                    for (int k = 0; k < extChilds.getLength (); k++) {
-                                        Node extChild = extChilds.item (k);
-                                        if (extChild.getNodeName ().equals ("documentation")) {
-                                            description = extChild.getAttributes ().getNamedItem ("value").getNodeValue ();
-                                            if (description.length () == 0)
-                                                description = null;
-                                        }
+                        boolean found = false;
+                        NodeList nl1 = node.getChildNodes ();
+                        for (int j = 0; j < nl1.getLength () && !found; j++) {
+                            Node n1 = nl1.item (j);
+                            if (n1.getNodeName ().equals ("xmi:Extension")) {
+                                NodeList nl2 = n1.getChildNodes ();
+                                for (int l = 0; l < nl2.getLength () && !found; l++) {
+                                    Node n2 = nl2.item (l);
+                                    if (n2.getNodeName ().equals ("documentation")) {
+                                        found = true;
+                                        description = n2.getAttributes ().getNamedItem ("value").getNodeValue ();
+                                        if (description.length () == 0)
+                                            description = null;
                                     }
                                 }
                             }
@@ -65,13 +65,13 @@ public class UCDiagramController {
                     case "uml:Include":
                         String includingCase = nodeMap.getNamedItem ("includingCase").getNodeValue ();
                         String addition = nodeMap.getNamedItem ("addition").getNodeValue ();
-                        dependencies.add (new Pair<> (UseCaseDependency.TYPE_INCLUDE, new Pair<> (includingCase, addition)));
+                        dependencies.add (new Pair<> (UseCaseDependency.INCLUDE, new Pair<> (includingCase, addition)));
                         break;
                     
                     case "uml:Extend":
                         String extension = nodeMap.getNamedItem ("extension").getNodeValue ();
                         String extendedCase = nodeMap.getNamedItem ("extendedCase").getNodeValue ();
-                        dependencies.add (new Pair<> (UseCaseDependency.TYPE_EXTEND, new Pair<> (extension, extendedCase)));
+                        dependencies.add (new Pair<> (UseCaseDependency.EXTEND, new Pair<> (extension, extendedCase)));
                         break;
                         
                     default: break;

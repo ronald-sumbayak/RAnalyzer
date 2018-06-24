@@ -2,11 +2,11 @@ package ra.sumbayak.ranalyzer.base;
 
 public class RequirementsStatementForm extends Form {
     
-    private static final String TITLE = "Edit Statement";
-    private static final String HEADER = "Requirements Statement Form";
+    private static final String TITLE = "Edit Requirement";
+    private static final String HEADER = "Requirements Requirement Form";
     private static final String OK_BUTTON_LABEL = "Edit";
     
-    public static final String STATEMENT = "Statement";
+    public static final String STATEMENT = "Requirement";
     
     public RequirementsStatementForm (String instance) {
         super (TITLE, HEADER, OK_BUTTON_LABEL);

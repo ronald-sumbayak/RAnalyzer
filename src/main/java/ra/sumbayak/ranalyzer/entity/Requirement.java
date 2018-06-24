@@ -1,10 +1,10 @@
 package ra.sumbayak.ranalyzer.entity;
 
-public class Statement {
+public class Requirement {
     
     private String value;
     
-    public Statement (String value) {
+    public Requirement (String value) {
         this.value = value;
     }
     
@@ -14,5 +14,10 @@ public class Statement {
     
     public void setValue (String value) {
         this.value = value;
+    }
+    
+    @Override
+    public String toString () {
+        return value;
     }
 }

@@ -10,21 +10,24 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import ra.sumbayak.ranalyzer.controller.StatementController;
+import ra.sumbayak.ranalyzer.controller.RequirementController;
 import ra.sumbayak.ranalyzer.entity.Project;
-import ra.sumbayak.ranalyzer.entity.Statement;
+import ra.sumbayak.ranalyzer.entity.Requirement;
 
 public class StatementWindowController {
     
-    @FXML private JFXListView<Statement> statementListView;
-    private ObservableList<Statement> statementItems;
-    private StatementController controller;
+    @FXML private JFXListView<Requirement> statementListView;
+    @FXML private Button addStatementButton;
+    
+    private ObservableList<Requirement> statementItems;
+    private RequirementController controller;
     private Project project;
     
     void setProject (Project project) {
@@ -34,7 +37,7 @@ public class StatementWindowController {
     
     @FXML
     private void initialize () {
-        controller = new StatementController ();
+        controller = new RequirementController ();
         statementItems = FXCollections.observableArrayList ();
         statementListView.setCellFactory (param -> new StatementCell ());
         statementListView.setItems (statementItems);
@@ -61,13 +64,13 @@ public class StatementWindowController {
     private void updateStatementList () {
         if (project == null)
             return;
-        statementItems.setAll (project.getStatements ());
+        statementItems.setAll (project.getRequirements ());
     }
     
-    public class StatementCell extends JFXListCell<Statement> {
+    public class StatementCell extends JFXListCell<Requirement> {
         
         @Override
-        protected void updateItem (Statement item, boolean empty) {
+        protected void updateItem (Requirement item, boolean empty) {
             super.updateItem (item, empty);
             
             if (empty) {
@@ -80,7 +83,7 @@ public class StatementWindowController {
                 grid.setVgap (4);
                 grid.setPadding (new Insets (10, 10, 10, 10));
                 
-                Label id = new Label ("R" + String.valueOf (getIndex ()));
+                Label id = new Label ("R" + String.valueOf (getIndex () + 1));
                 Label s = new Label (item.getValue ());
                 Separator separator = new Separator (Orientation.VERTICAL);
                 
@@ -104,5 +107,10 @@ public class StatementWindowController {
                 setText (null);
             }
         }
+    }
+    
+    void setLoading (boolean loading) {
+        addStatementButton.setDisable (loading);
+        statementListView.setDisable (loading);
     }
 }
