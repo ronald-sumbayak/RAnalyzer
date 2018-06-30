@@ -37,7 +37,7 @@ public class ProjectWorksheetController {
     
     public void setStage (Stage stage) {
         this.stage = stage;
-        openExistingProject ();
+        //openExistingProject ();
     }
     
     @FXML
