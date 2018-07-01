@@ -111,14 +111,12 @@ public class ProjectController {
     }
     
     public Project openExistingProject (Project current) {
-        //WindowExplorer windowExplorer = new WindowExplorer ("Open Existing Project");
-        //windowExplorer.addExtensionFilter ("RAnalyzer Project File", "*.ran");
-        //
-        //File file = windowExplorer.open ();
-        //if (file == null)
-        //    return current;
-    
-        File file = new File ("C:\\Users\\ronald\\Documents\\RAnalyzerProjects\\sample2.ran");
+        WindowExplorer windowExplorer = new WindowExplorer ("Open Existing Project");
+        windowExplorer.addExtensionFilter ("RAnalyzer Project File", "*.ran");
+        
+        File file = windowExplorer.open ();
+        if (file == null)
+            return current;
     
         Document doc = XMIDocument.open (file);
         if (doc == null)
